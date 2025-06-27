@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fire Photo Card</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 200% 200%;
+      animation: bgAnimation 10s infinite alternate;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes bgAnimation {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .card {
+      position: relative;
+      width: 320px;
+      height: 440px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1.5s ease;
+    }
+
+    .fire-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: url('') center bottom no-repeat;
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .card.burning .fire-overlay {
+      opacity: 1;
+    }
+
+    .card.burning img {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="card" onclick="burnAndSwap(this)">
+    <h1 align="center" style="color: aliceblue;">Virat Kohli</h1>
+
+  <img src="https://english.cdn.zeenews.com/sites/default/files/2024/10/05/1535993-untitled-design-32.jpg" alt="Original Photo">
+  <div class="fire-overlay"></div>
+</div>
+
+<script>
+  const images = [
+    'https://cdn.britannica.com/48/252748-050-C514EFDB/Virat-Kohli-India-celebrates-50th-century-Cricket-November-15-2023.jpg',
+    'https://ichef.bbci.co.uk/images/ic/1024x576/p0l9vzfz.jpg',
+    'https://images1.wionews.com/images/wion/900x1600/2024/8/8/1723119825408_ViratKohliWC.png'
+  ];
+
+  let currentIndex = 0;
+
+  function burnAndSwap(card) {
+    if (card.classList.contains('burning')) return; // Prevent double-clicking
+
+    card.classList.add('burning');
+
+    setTimeout(() => {
+      // Swap image
+      const img = card.querySelector('img');
+      currentIndex = (currentIndex + 1) % images.length;
+      img.src = images[currentIndex];
+      img.style.opacity = '1';
+
+      card.classList.remove('burning');
+    }, 2500); // Duration of the burn effect
+  }
+</script>
+
+</body>
+</html>
